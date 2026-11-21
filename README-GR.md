@@ -37,7 +37,21 @@
 - Τα πορτρέτα είναι ζωγραφισμένα ανά οικογένεια, όχι ανά είδος.
 - Το κείμενο είναι στιγμιότυπο του export (10/11/2026).
 
+## Ενσωμάτωση ολόκληρης της βιβλιοθήκης σε ανάρτηση Blogger (χωρίς iframe)
 
-## Δημοσίευση μέσω GitHub Pages
+Η έκδοση περιλαμβάνει iframe-free ενσωμάτωση με Shadow DOM. Τα αρχεία `public/embed.js`, `public/embed.css`, `public/embed-library.js` και `public/data/embed-b*.js` χρησιμοποιούνται από το widget. Τα `embed-b*.js` είναι ισοδύναμα script-loadable αντίγραφα των JSON chunks, ώστε η ενσωμάτωση να λειτουργεί και από GitHub Pages χωρίς προσαρμοσμένα CORS headers.
 
-Το αποθετήριο περιλαμβάνει workflow στο `.github/workflows/pages.yml`, το οποίο δημοσιεύει αυτόματα το περιεχόμενο του `public/` στο GitHub Pages όταν γίνεται push στο `main`. Μετά το πρώτο upload, ενεργοποίησε το **Settings → Pages → Build and deployment → Source: GitHub Actions**. Δεν απαιτείται build.
+1. Δημοσίευσε ξανά το περιεχόμενο του φακέλου `public/` στον host σου (GitHub Pages, Netlify ή Cloudflare Pages). Για GitHub Pages, το workflow αυτής της έκδοσης δημοσιεύει τον φάκελο `public/`.
+2. Άνοιξε το `BLOGGER-EMBED.html` και αντέγραψε τις δύο γραμμές HTML στην ανάρτηση Blogger, σε προβολή HTML.
+3. Βεβαιώσου ότι το URL του `embed.js` δείχνει στη ρίζα της δημοσιευμένης εφαρμογής. Για άλλο host, άλλαξε μόνο αυτό το URL.
+
+```html
+<div data-poulia4-library></div>
+<script src="https://ΤΟ-DOMAIN-ΣΟΥ/embed.js" defer></script>
+```
+
+Το widget καταλαμβάνει όλο το διαθέσιμο πλάτος της ανάρτησης (έως 1120px), φορτώνει τη βιβλιοθήκη, την αναζήτηση, τα κεφάλαια και τα άρθρα μέσα στο ίδιο σημείο και δεν χρησιμοποιεί `<iframe>`. Η πλοήγησή του είναι εσωτερική και δεν αλλάζει το URL/fragment του Blogger.
+
+**Offline/PWA:** Η ενσωματωμένη έκδοση μέσα στο Blogger δεν μπορεί να εγκαταστήσει Service Worker στο domain του ιστολογίου και δεν παρέχει offline λήψη μέσα στην ανάρτηση. Η πλήρης offline λειτουργία και εγκατάσταση PWA παραμένουν διαθέσιμες όταν ανοίγει κανείς απευθείας τη φιλοξενούμενη εφαρμογή.
+
+Προαιρετικά, μπορείς να αρχίσεις από συγκεκριμένη προβολή προσθέτοντας `data-start="#/q/Falco%20peregrinus"` ή άλλο εσωτερικό route στο στοιχείο `div`.
