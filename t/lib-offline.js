@@ -1,0 +1,32 @@
+const {chromium}=require('playwright');
+const BASE='http://localhost:8765/';let pass=0,fail=0;const ok=(c,m)=>{if(c)pass++;else{fail++;console.log('✗',m);}};
+const SVG='<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160"><rect width="160" height="160" fill="#9bb7a6"/></svg>';
+(async()=>{
+ const b=await chromium.launch();const ctx=await b.newContext({viewport:{width:1100,height:800}});
+ await ctx.route(/googleusercontent\.com|bp\.blogspot/,r=>r.fulfill({contentType:'image/svg+xml',headers:{'access-control-allow-origin':'*'},body:SVG}));
+ const p=await ctx.newPage();const errs=[];p.on('pageerror',e=>errs.push(e.message));
+ await p.goto(BASE);await p.waitForSelector('.hero');
+ await p.evaluate(()=>{window.__noReload=true});
+ await p.evaluate(()=>navigator.serviceWorker.ready);
+ await p.waitForFunction(()=>navigator.serviceWorker.controller||true);
+ await p.reload();await p.waitForSelector('.hero');
+ ok(await p.evaluate(()=>!!navigator.serviceWorker.controller),'ο SW ελέγχει τη σελίδα');
+ const t0=Date.now();await p.click('[data-act=dl]');
+ await p.waitForFunction(()=>/Έτοιμο για χρήση/.test(document.getElementById('dlText').textContent),null,{timeout:120000});
+ console.log('λήψη όλων σε',((Date.now()-t0)/1000).toFixed(1),'s');
+ const cs=await p.evaluate(async()=>{const o={};for(const k of await caches.keys()){o[k]=(await (await caches.open(k)).keys()).length}return o});console.log(cs);
+ ok((cs['p4lib-data-v1']||0)>=D_CHUNKS(),'όλα τα τμήματα στην cache');
+ ok((cs['p4lib-img-v1']||0)>600,'μικρογραφίες στην cache: '+cs['p4lib-img-v1']);
+ await ctx.setOffline(true);
+ await p.reload();await p.waitForSelector('.hero');ok(true,'ανοίγει offline');
+ await p.goto(BASE+'#/q/'+encodeURIComponent('κουρούνα'));await p.waitForSelector('.arow');await p.click('.arow >> nth=0');
+ await p.waitForSelector('.prose p',{timeout:8000});ok(await p.locator('.prose p').count()>3,'άρθρο offline (κείμενο)');
+ ok(await p.locator('.gallery img').first().evaluate(e=>e.complete&&e.naturalWidth>0).catch(()=>false),'μικρογραφίες offline');
+ await p.goto(BASE+'#/k/c5');await p.waitForSelector('.arow');ok(await p.locator('.arow').count()>5,'κεφάλαιο offline');
+ const r=await p.evaluate(()=>window.POULIA4_LIB.arts.filter(a=>a.b===8).pop().id);
+ await p.goto(BASE+'#/a/'+r);await p.waitForSelector('.prose p',{timeout:8000});ok(true,'άρθρο από το τελευταίο τμήμα offline');
+ await p.screenshot({path:'../../shots/offline.png'});
+ ok(errs.length===0,'χωρίς σφάλματα: '+errs.join(';'));
+ console.log(pass+' επιτυχίες, '+fail+' αποτυχίες');await b.close();process.exit(fail?1:0);
+})();
+function D_CHUNKS(){return 9}

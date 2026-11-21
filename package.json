@@ -1,0 +1,3 @@
+{ "name": "poulia4-vivliothiki", "version": "1.0.0", "private": true,
+  "scripts": { "data": "python3 tools/make-library.py feed.atom public/data", "deploy": "wrangler deploy" },
+  "devDependencies": { "wrangler": "^4" } }
