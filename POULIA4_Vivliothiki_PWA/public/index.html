@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="el" data-theme="paper">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Βιβλιοθήκη Ορνιθολογίας · POULIA4</title>
+<meta name="description" content="Βιβλιοθήκη Ορνιθολογίας του poulia4.blogspot.com: οδηγοί τάξεων και οικογενειών πουλιών, με άρθρα ειδών, αυτόματη σύνδεση ονομάτων, λειτουργία ανάγνωσης και χρήση χωρίς σύνδεση.">
+<meta name="theme-color" content="#1f5c4d">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<a class="skip" href="#main">Μετάβαση στο περιεχόμενο</a>
+<div id="readbar" aria-hidden="true"><i></i></div>
+<header class="top" id="top">
+  <a class="brand" href="#/" aria-label="Αρχική Βιβλιοθήκης">
+    <svg viewBox="0 0 40 40" width="34" height="34" aria-hidden="true"><rect width="40" height="40" rx="10" fill="#1f5c4d"/><path d="M9 11.5c4-1.6 8-1.2 11 1.2v17c-3-2.4-7-2.8-11-1.2z" fill="#f6efdc"/><path d="M31 11.5c-4-1.6-8-1.2-11 1.2v17c3-2.4 7-2.8 11-1.2z" fill="#e9dcb8"/><path d="M24 8c4 1 6 4 5.600 8-1.800-1.400-4-1.400-5.600-.4z" fill="#d9942b"/></svg>
+    <span><b>Βιβλιοθήκη Ορνιθολογίας</b><small>POULIA4</small></span>
+  </a>
+  <form class="search" id="searchForm" role="search" autocomplete="off">
+    <input id="q" type="search" placeholder="Αναζήτηση είδους, οικογένειας, επιστημονικού ονόματος…" aria-label="Αναζήτηση" enterkeyhint="search">
+    <button type="submit" aria-label="Αναζήτηση"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M10.500 3a7.500 7.500 0 015.900 12.100l4.300 4.300-1.400 1.400-4.300-4.300A7.500 7.500 0 1110.500 3zm0 2a5.500 5.500 0 100 11 5.500 5.500 0 000-11z" fill="currentColor"/></svg></button>
+  </form>
+  <button class="iconbtn" id="btnSet" aria-label="Ρυθμίσεις ανάγνωσης" aria-haspopup="dialog"><span aria-hidden="true">Aa</span></button>
+</header>
+<main id="main" tabindex="-1"><p class="loading">Φόρτωση βιβλιοθήκης…</p></main>
+<footer class="foot">
+  <p>Βιβλιοθήκη από τα άρθρα του <a href="https://poulia4.blogspot.com" target="_blank" rel="noopener">poulia4.blogspot.com</a> · <span id="footStat"></span></p>
+</footer>
+
+<div id="settings" class="pop" hidden role="dialog" aria-label="Ρυθμίσεις ανάγνωσης">
+  <div class="row"><span>Μέγεθος γραμμάτων</span><div class="seg"><button data-act="fs-" aria-label="Μικρότερα γράμματα">A−</button><output id="fsOut">100%</output><button data-act="fs+" aria-label="Μεγαλύτερα γράμματα">A+</button></div></div>
+  <div class="row"><span>Φόντο</span><div class="themes" role="radiogroup" aria-label="Φόντο">
+    <button class="th th-paper" data-theme="paper" role="radio" aria-label="Λευκό χαρτί"><i></i>Χαρτί</button>
+    <button class="th th-sepia" data-theme="sepia" role="radio" aria-label="Σέπια"><i></i>Σέπια</button>
+    <button class="th th-dark" data-theme="dark" role="radio" aria-label="Σκοτεινό"><i></i>Νύχτα</button></div></div>
+  <div class="row"><span>Γραμματοσειρά</span><div class="seg"><button data-font="serif">Με πατούρες</button><button data-font="sans">Χωρίς</button></div></div>
+</div>
+
+<div id="modal" class="modal" hidden><div class="mcard" role="dialog" aria-modal="true" aria-labelledby="mTitle" tabindex="-1"></div></div>
+<div id="lightbox" class="lightbox" hidden><button class="lbx" data-act="lb-close" aria-label="Κλείσιμο">×</button><button class="lbn lbp" data-act="lb-prev" aria-label="Προηγούμενη">‹</button><img alt=""><button class="lbn lbf" data-act="lb-next" aria-label="Επόμενη">›</button><p></p></div>
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+<script src="data/index.js"></script>
+<script src="portraits.js"></script>
+<script src="linker.js"></script>
+<script src="library.js"></script>
+</body>
+</html>
